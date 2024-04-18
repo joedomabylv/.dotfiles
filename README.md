@@ -1,5 +1,5 @@
 # Dotfiles
-These are my personal dotfiles
+These are my personal dotfiles. I'm using [GNU stow](https://www.gnu.org/software/stow/) to manage them from the home directory.
 
 ## Joemacs
 Emacs config heavily inspired by David Wilson
