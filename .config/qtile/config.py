@@ -211,6 +211,19 @@ open_weather = widget.OpenWeather(
                             colour = palette[6],
                             border_width = border_width,
                         )])
+battery = widget.Battery(
+                    discharge_char='',
+                    charge_char='⚡',
+                    full_char='⚡',
+                    show_short_text=False,
+                    low_percentage=0.2,
+                    low_foreground='#D80F0F',
+                    format='{char} {percent:2.0%}',
+                    decorations=[
+                        BorderDecoration(
+                            colour = palette[1],
+                            border_width = border_width,
+                        )])
 
 main_bar = bar.Bar([
     window_name,
@@ -220,7 +233,8 @@ main_bar = bar.Bar([
     pulse_volume,
     cpu,
     clock,
-    open_weather],
+    open_weather,
+    battery],
     30,
     opacity=1)
 
@@ -233,12 +247,12 @@ secondary_bar = bar.Bar([
 screens = [
     Screen(
         top=main_bar,
-        wallpaper="/usr/share/backgrounds/banff.jpg",
+        wallpaper="/usr/share/backgrounds/new-zealand.jpg",
         wallpaper_mode="fill"
     ),
     Screen(
         top=secondary_bar,
-        wallpaper="/usr/share/backgrounds/banff.jpg",
+        wallpaper="/usr/share/backgrounds/new-zealand.jpg",
         wallpaper_mode="fill"
     ),    
 ]

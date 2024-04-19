@@ -69,7 +69,7 @@
 
 (defun jwd/org-babel-tangle-qtile-config ()
   (when (string-equal (buffer-file-name)
-		      (expand-file-name "/home/jdv/.dotfiles/QTile.org"))
+		      (expand-file-name "~/.dotfiles/QTile.org"))
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
@@ -77,7 +77,7 @@
 
 (defun jwd/org-babel-tangle-emacs-config ()
   (when (string-equal (buffer-file-name)
-		      (expand-file-name "/home/jdv/.dotfiles/Emacs.org"))
+		      (expand-file-name "~/.dotfiles/Emacs.org"))
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
