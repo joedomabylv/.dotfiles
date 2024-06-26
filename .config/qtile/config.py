@@ -85,6 +85,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod, "shift"], "i", lazy.spawn("slock"), desc="SLock X session"),
     Key([mod], "p", lazy.run_extension(extension.DmenuRun(
         dmenu_prompt="app >",
         dmenu_font="Source Code Pro",
