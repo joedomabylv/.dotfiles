@@ -23,6 +23,9 @@ Window manager. Dependent on [qtile-extras](https://github.com/elParaguayo/qtile
     - [border](https://tools.suckless.org/dmenu/patches/border/)
     - [numbers](https://tools.suckless.org/dmenu/patches/numbers/)
 
+### Slock in Qtile
+- The startup script and a locking keybind is dependent on [SLock](https://tools.suckless.org/slock/):
+
 ## Alacritty
 Lightweight terminal config. Dependent on [alacritty-theme](https://github.com/alacritty/alacritty-theme).
 
