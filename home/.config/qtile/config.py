@@ -35,7 +35,7 @@ from libqtile.lazy import lazy
 
 mod = "mod4"
 terminal = "alacritty"
-palette = colors.RosePine
+palette = colors.ForestSage
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -86,15 +86,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod, "shift"], "i", lazy.spawn("slock"), desc="SLock X session"),
-    Key([mod], "p", lazy.run_extension(extension.DmenuRun(
-        dmenu_prompt="app >",
-        dmenu_font="Source Code Pro",
-        dmenu_command="dmenu_run -c -l 20 -bw 3",
-        background=palette[0],
-        foreground=palette[1],
-        selected_background=palette[3],
-        selected_foreground=palette[1],
-    ))),
+    Key([mod], "p", lazy.spawn("rofi -show drun -show-icons"))
 ]
 
 groups = []
@@ -136,7 +128,7 @@ for i in groups:
 layout_theme = dict(
     border_width=2,
     margin=4,
-    border_focus=palette[3],
+    border_focus=palette[1],
 )
 
 layouts = [
@@ -248,12 +240,12 @@ secondary_bar = bar.Bar([
 screens = [
     Screen(
         top=main_bar,
-        wallpaper="/usr/share/backgrounds/new-zealand.jpg",
+        wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
         wallpaper_mode="fill"
     ),
     Screen(
         top=secondary_bar,
-        wallpaper="/usr/share/backgrounds/new-zealand.jpg",
+        wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
         wallpaper_mode="fill"
     ),    
 ]

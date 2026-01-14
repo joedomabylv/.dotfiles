@@ -2,7 +2,7 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(require 'doom-modeline)
+(use-package doom-modeline :ensure t)
 (doom-modeline-mode 1)
 
 (use-package doom-themes
@@ -11,7 +11,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-snazzy t)
+  (load-theme 'doom-gruvbox t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Corrects (and improves) org-mode's native fontification.
@@ -28,28 +28,31 @@
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "~/.emacs.d/auto-save/"))))
 
-(set-frame-parameter (selected-frame) 'alpha '(80 . 50))
-(add-to-list 'default-frame-alist '(alpha . (80 . 50)))
+(set-frame-parameter (selected-frame) 'alpha '(95 . 50))
+(add-to-list 'default-frame-alist '(alpha . (95 . 50)))
 
 (defun jwd/org-startup ()
-  (org-bullets-mode 1)                 
+  (org-superstar-mode 1)                 
   (visual-line-mode 1)                 ; Corrects line-wrapping
   (setq org-odd-levels-only t         
-        org-ellipsis "  ⬎"            
-        org-hide-emphasis-markers t    ; Hides emphasis markers (*, /, _)
+	org-ellipsis "  ⬎"            
+	org-hide-emphasis-markers t    ; Hides emphasis markers (*, /, _)
 	org-indent-mode t              
 	org-startup-indented t)
   (message "Org hook called"))
 
 (defun jwd/org-mode-visual-fill-column ()
   (setq visual-fill-column-width 100            ; Fatter column padding
-        visual-fill-column-center-text t)       ; Centers text
+	visual-fill-column-center-text t)       ; Centers text
   (visual-fill-column-mode 1))                  ; Turns on visual-fill-column-mode
+
+(use-package org-superstar :ensure t)
 
 (use-package org
   :hook (org-mode . jwd/org-startup))
 
 (use-package visual-fill-column
+  :ensure t
   :hook (org-mode . jwd/org-mode-visual-fill-column))
 
 (font-lock-add-keywords 'org-mode
@@ -83,6 +86,7 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jwd/org-babel-tangle-emacs-config)))
 
+(use-package counsel :ensure t)
 (ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)

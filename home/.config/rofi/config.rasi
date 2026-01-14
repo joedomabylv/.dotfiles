@@ -1,0 +1,84 @@
+configuration {
+  modi: "drun,run,window";
+  show-icons: true;
+  drun-display-format: "{name}";
+}
+
+* {
+  bg0: #1b1f1a;
+  bg1: #242a23;
+  fg0: #e6e2d6;
+  fg1: #c9c2b3;
+
+  sage: #8fa88a;
+  moss: #6f8f6a;
+  pine: #3f5e4a;
+  bark: #7a5b3a;
+  clay: #b07d5a;
+  gold: #c4a86a;
+  sky:  #7aa6a1;
+  berry:#a4636a;
+
+  font: "IBM Plex Mono 12";
+}
+
+window {
+  location: center;
+  anchor: center;
+  width: 40%;
+  border: 2px;
+  border-color: @pine;
+  background-color: @bg0;
+}
+
+mainbox {
+  padding: 12px;
+  background-color: transparent;
+}
+
+inputbar {
+  padding: 10px 12px;
+  border: 2px;
+  border-color: @bg1;
+  border-radius: 8px;
+  background-color: @bg1;
+  text-color: @fg0;
+}
+
+prompt {
+  text-color: @sage;
+}
+
+entry {
+  text-color: @fg0;
+}
+
+listview {
+  margin: 10px 0px 0px 0px;
+  lines: 10;
+  columns: 1;
+  fixed-height: true;
+  background-color: transparent;
+}
+
+element {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: transparent;
+  text-color: @fg1;
+}
+
+element selected {
+  background-color: @pine;
+  text-color: @fg0;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: inherit;
+}
+
+message {
+  padding: 8px;
+  text-color: @fg1;
+}

@@ -33,3 +33,16 @@ RosePine = [
     "#c4a7e7", # color06
     "#e0def4"  # color15
     ]
+
+ForestSage = [
+    "#1b1f1a", # bg
+    "#e6e2d6", # fg
+    "#8fa88a", # color01 sage
+    "#a4636a", # color02 berry
+    "#7aa6a1", # color03 sky
+    "#c4a86a", # color04 gold
+    "#b07d5a", # color05 clay
+    "#3f5e4a", # color06 pine
+    "#e6e2d6", # color15 fg
+    ]
+
