@@ -86,6 +86,11 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jwd/org-babel-tangle-emacs-config)))
 
+(setq org-src-tab-acts-natively t
+      org-edit-src-content-indentation 0
+      org-src-preserve-indentation t
+      org-adapt-indentation nil)
+
 (use-package counsel :ensure t)
 (ivy-mode)
 (setq ivy-use-virtual-buffers t)

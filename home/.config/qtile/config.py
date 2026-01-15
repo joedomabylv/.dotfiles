@@ -32,6 +32,8 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from qtile_extras.widget.decorations import BorderDecoration
 from qtile_extras import widget
 from libqtile.lazy import lazy
+from libqtile import widget as qtile_widget
+from qtile_extras import widget as extra_widget
 
 mod = "mod4"
 terminal = "alacritty"
@@ -67,19 +69,19 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
+	[mod, "shift"],
+	"Return",
+	lazy.layout.toggle_split(),
+	desc="Toggle between split and unsplit sides of stack",
     ),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "Tab", lazy.next_screen(), desc="Move focus to next monitor"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key(
-        [mod],
-        "f",
-        lazy.window.toggle_fullscreen(),
-        desc="Toggle fullscreen on the focused window",
+	[mod],
+	"f",
+	lazy.window.toggle_fullscreen(),
+	desc="Toggle fullscreen on the focused window",
     ),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -94,36 +96,36 @@ group_names = ["1", "2", "3", "4", "5"]
 group_labels = ["one", "two", "three", "four", "five"]
 
 for i in range(len(group_names)):
-    groups.append(
-        Group(
-            name=group_names[i],
-            label=group_labels[i],
-        )
-    )
+      groups.append(
+          Group(
+              name=group_names[i],
+              label=group_labels[i],
+          )
+      )
 
 for i in groups:
-    keys.extend(
-        [
-            # mod1 + group number = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            # mod1 + shift + group number = switch to & move focused window to group
-            Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
-            ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + group number = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
-        ]
-    )
+      keys.extend(
+          [
+              # mod1 + group number = switch to group
+              Key(
+                  [mod],
+                  i.name,
+                  lazy.group[i.name].toscreen(),
+                  desc="Switch to group {}".format(i.name),
+              ),
+              # mod1 + shift + group number = switch to & move focused window to group
+              Key(
+                  [mod, "shift"],
+                  i.name,
+                  lazy.window.togroup(i.name, switch_group=True),
+                  desc="Switch to & move focused window to group {}".format(i.name),
+              ),
+              # Or, use below if you prefer not to switch to that group.
+              # # mod1 + shift + group number = move focused window to group
+              # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+              #     desc="move focused window to group {}".format(i.name)),
+          ]
+      )
 
 layout_theme = dict(
     border_width=2,
@@ -137,7 +139,7 @@ layouts = [
     # layout.Stack(**layout_theme, num_stacks=2),
     # layout.Bsp(**layout_theme),
     # layout.Matrix(**layout_theme),
-    layout.MonadTall(**layout_theme),
+      layout.MonadTall(**layout_theme),
     # layout.MonadWide(**layout_theme),
     # layout.RatioTile(**layout_theme),
     # layout.Tile(**layout_theme),
@@ -153,100 +155,108 @@ widget_defaults = dict(
     background=palette[0],
     foreground=palette[1],
 )
-
 border_width = [0, 0, 3, 0]
 extension_defaults = widget_defaults.copy()
-
 # Bar widgets
-window_name = widget.WindowName(padding=10)
-group_box = widget.GroupBox(
-    highlight_method="line",
-    highlight_color=palette[4],
-    this_current_screen_border=palette[5],
-    inactive=palette[5])
-system_tray = widget.Systray(
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[2],
-                            border_width = border_width,
-                        )])
-pulse_volume = widget.PulseVolume(
-                    mouse_callbacks={
-                        "Button1": lazy.spawn("pavucontrol"),  
-                    },
-                    fmt="Audio: {}",
-                    volume_app="pulseaudio",
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[3],
-                            border_width = border_width,
-                        )])
-cpu = widget.CPU(
-                    format = '▓  CPU: {load_percent}%',
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[4],
-                            border_width = border_width,
-                        )])
-clock = widget.Clock(
-                    format="%m/%d/%y %a %I:%M %p",
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[5],
-                            border_width = border_width,
-                        )])
-open_weather = widget.OpenWeather(
-                    cityid="5391811", # san diego, ca
-                    metric=False,     # imperial (F)
-                    format="{icon} {temp}°",
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[6],
-                            border_width = border_width,
-                        )])
-battery = widget.Battery(
-                    discharge_char='',
-                    charge_char='⚡',
-                    full_char='⚡',
-                    show_short_text=False,
-                    low_percentage=0.2,
-                    low_foreground='#D80F0F',
-                    format='{char} {percent:2.0%}',
-                    decorations=[
-                        BorderDecoration(
-                            colour = palette[1],
-                            border_width = border_width,
-                        )])
+def make_window_name():
+    return widget.WindowName(padding=10)
 
-main_bar = bar.Bar([
-    window_name,
-    group_box,
-    widget.Spacer(),
-    system_tray,
-    pulse_volume,
-    cpu,
-    clock,
-    open_weather,
-    battery],
-    30,
-    opacity=1)
+def make_group_box():
+    return widget.GroupBox(
+        highlight_method="line",
+        highlight_color=palette[4],
+        this_current_screen_border=palette[5],
+        inactive=palette[5],
+    )
 
-secondary_bar = bar.Bar([
-        window_name,
-        clock],
-        30,
-        opacity=1)
+def make_system_tray():
+    return qtile_widget.Systray(
+        decorations=[
+            BorderDecoration(
+                colour=palette[2],
+                border_width=border_width,
+            )
+        ]
+    )
+
+def make_pulse_volume():
+    return widget.PulseVolume(
+        mouse_callbacks={"Button1": lazy.spawn("pavucontrol")},
+        fmt="Audio: {}",
+        volume_app="pulseaudio",
+        decorations=[
+            BorderDecoration(
+                colour=palette[3],
+                border_width=border_width,
+            )
+        ],
+    )
+
+def make_cpu():
+    return widget.CPU(
+        format="▓  CPU: {load_percent}%",
+        decorations=[
+            BorderDecoration(
+                colour=palette[4],
+                border_width=border_width,
+            )
+        ],
+    )
+
+def make_clock():
+    return widget.Clock(
+        format="%m/%d/%y %a %I:%M %p",
+        decorations=[
+            BorderDecoration(
+                colour=palette[5],
+                border_width=border_width,
+            )
+        ],
+    )
+
+def make_open_weather():
+    return widget.OpenWeather(
+        cityid="5391811",  # san diego, ca
+        metric=False,      # imperial (F)
+        format="{icon} {temp}°",
+        decorations=[
+            BorderDecoration(
+                colour=palette[6],
+                border_width=border_width,
+            )
+        ],
+    )
+
+def make_main_bar():
+    widgets = [
+        make_window_name(),
+        make_group_box(),
+        widget.Spacer(),
+        make_system_tray(),
+        make_pulse_volume(),
+        make_cpu(),
+        make_clock(),
+        make_open_weather(),
+    ]
+    return bar.Bar(widgets, 30, opacity=1)
+
+def make_secondary_bar():
+    widgets = [
+        make_window_name(),
+        make_clock(),
+    ]
+    return bar.Bar(widgets, 30, opacity=1)
 
 screens = [
     Screen(
-        top=main_bar,
-        wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
-        wallpaper_mode="fill"
+	top=make_main_bar(),
+	wallpaper="/usr/share/backgrounds/dense-forest.jpg",
+	wallpaper_mode="fill"
     ),
     Screen(
-        top=secondary_bar,
-        wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
-        wallpaper_mode="fill"
+	top=make_secondary_bar(),
+	wallpaper="/usr/share/backgrounds/dense-forest.jpg",
+	wallpaper_mode="fill"
     ),    
 ]
 
@@ -265,14 +275,14 @@ floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
+	# Run the utility of `xprop` to see the wm class and name of an X client.
+	*layout.Floating.default_float_rules,
+	Match(wm_class="confirmreset"),  # gitk
+	Match(wm_class="makebranch"),  # gitk
+	Match(wm_class="maketag"),  # gitk
+	Match(wm_class="ssh-askpass"),  # ssh-askpass
+	Match(title="branchdialog"),  # gitk
+	Match(title="pinentry"),  # GPG key password entry
     ]
 )
 auto_fullscreen = True
@@ -298,5 +308,5 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.Popen([home])
+      home = os.path.expanduser('~/.config/qtile/autostart.sh')
+      subprocess.Popen([home])
