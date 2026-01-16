@@ -8,8 +8,8 @@ set $clay  #b07d5a
 set $pine  #3f5e4a
 
 # window gaps-ish spacing
-gaps inner 4
-gaps outer 1
+gaps inner 6
+gaps outer 4
 
 # borders
 default_border normal 2
@@ -44,11 +44,10 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.local/bin/lock-forests
 # system tray network manager
 exec --no-startup-id nm-applet
 
-# picom
-exec --no-startup-id pkill picom; picom --experimental-backends
+# run system-aware picom and feh
+exec_always --no-startup-id ~/.local/bin/i3-startup.sh
 
-# feh (wallpaper)
-exec --no-startup-id feh --no-fehbg --bg-fill /usr/share/backgrounds/rushing-currents.jpg
+exec --no-startup-id pkill picom; picom --experimental-backends
 
 # refresh i3blocks on volume key events
 set $refresh_i3blocks pkill -SIGUSR1 i3blocks
@@ -110,6 +109,12 @@ bindsym $mod+Shift+q exec --no-startup-id i3-msg exit
 # lock screen
 bindsym $mod+Shift+i exec --no-startup-id ~/.local/bin/lock-forestsage.sh
 
+# switch focus between monitors
+bindsym $mod+Tab focus output next
+
+# move workspace to other monitor
+bindsym $mod+Shift+Tab move workspace to output next
+
 font pango:IBM Plex Mono 10
 
 # switch to workspace
@@ -126,9 +131,6 @@ bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
 bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
 
-# ensure workspaces exist so they always show in the bar
-exec --no-startup-id i3-msg 'workspace $ws1; workspace $ws2; workspace $ws3; workspace $ws4; workspace $ws5; workspace $ws1'
-
 bindsym $mod+Shift+Return layout toggle tabbed stacking splitv splith
 
 bindsym $mod+h split h
@@ -137,6 +139,8 @@ bindsym $mod+v split v
 bar {
     font pango:IBM Plex Mono 12
     status_command i3blocks
+    position top
+    tray_output primary
     colors {
         background #1b1f1a
         statusline #e6e2d6

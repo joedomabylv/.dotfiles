@@ -38,3 +38,9 @@ label=
 command=~/.config/i3blocks/scripts/weather.sh
 interval=600
 color=#b07d5a
+
+[right_pad]
+separator=false
+full_text=  
+interval=once
+
