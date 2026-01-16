@@ -1,0 +1,40 @@
+# forestsage i3blocks config
+
+command=/usr/lib/i3blocks/$BLOCK_NAME
+separator_block_width=40
+markup=none
+
+# global forestsage colors
+# bg    #1b1f1a
+# fg    #e6e2d6
+# sage  #8fa88a
+# berry #a4636a
+# sky   #7aa6a1
+# gold  #c4a86a
+# clay  #b07d5a
+# pine  #3f5e4a
+
+[volume]
+label= 
+command=~/.config/i3blocks/scripts/volume.sh
+interval=once
+signal=1
+color=#8fa88a
+
+[cpu]
+label=▓ CPU 
+command=~/.config/i3blocks/scripts/cpu.sh
+interval=2
+color=#7aa6a1
+
+[time]
+label= 
+command=date '+%m/%d/%y %a %I:%M %p'
+interval=5
+color=#c4a86a
+
+[weather]
+label= 
+command=~/.config/i3blocks/scripts/weather.sh
+interval=600
+color=#b07d5a

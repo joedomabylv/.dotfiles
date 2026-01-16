@@ -1,0 +1,220 @@
+#+title: i3 Config
+#+property: header-args :tangle ~/.dotfiles/home/.config/i3/config
+
+* Theme
+
+#+begin_src conf
+
+set $bg    #1b1f1a
+set $fg    #e6e2d6
+set $sage  #8fa88a
+set $berry #a4636a
+set $sky   #7aa6a1
+set $gold  #c4a86a
+set $clay  #b07d5a
+set $pine  #3f5e4a
+
+# window gaps-ish spacing
+gaps inner 4
+gaps outer 1
+
+# borders
+default_border normal 2
+default_floating_border normal 2
+
+# focused / unfocused / urgent colors
+# class                 border  background text   indicator child_border
+client.focused          $gold   $bg        $fg    $sage     $gold
+client.focused_inactive $pine   $bg        $fg    $pine     $pine
+client.unfocused        $pine   $bg        $fg    $pine     $pine
+client.urgent           $berry  $berry     $bg    $berry    $berry
+
+#+end_src
+
+* Variables
+
+#+begin_src conf
+
+# Super (Windows) as mod key
+set $mod Mod4
+
+# Swap to alacritty terminal
+set $terminal alacritty
+
+# workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+
+#+end_src
+
+* Startup
+
+#+begin_src conf
+
+# start xdg autostart entries
+exec --no-startup-id dex --autostart --environment i3
+
+# lock before suspend
+exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.local/bin/lock-forestsage.sh
+
+# system tray network manager
+exec --no-startup-id nm-applet
+
+# picom
+exec --no-startup-id pkill picom; picom --experimental-backends
+
+# feh (wallpaper)
+exec --no-startup-id feh --no-fehbg --bg-fill /usr/share/backgrounds/rushing-currents.jpg
+
+#+end_src
+
+* Audio Keys
+
+#+begin_src conf
+
+# refresh i3blocks on volume key events
+set $refresh_i3blocks pkill -SIGUSR1 i3blocks
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3blocks
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle && $refresh_i3blocks
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3blocks
+
+#+end_src
+
+* Mouse
+
+#+begin_src conf
+
+floating_modifier $mod
+tiling_drag modifier titlebar
+
+#+end_src
+
+* Core Keybinds
+
+#+begin_src conf
+
+# spawn terminal
+bindsym $mod+Return exec --no-startup-id $terminal
+
+# focus movement (i3-native-ish, right-hand)
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# cycle focus
+bindsym $mod+space focus next
+
+# move container
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# resize windows (direct binds)
+bindsym $mod+Control+j resize shrink width  20 px or 2 ppt
+bindsym $mod+Control+semicolon resize grow width  20 px or 2 ppt
+bindsym $mod+Control+k resize grow   height 20 px or 2 ppt
+bindsym $mod+Control+l resize shrink height 20 px or 2 ppt
+
+# rebalance current split container
+bindsym $mod+n balance split
+
+# kill window
+bindsym $mod+w kill
+
+# fullscreen toggle
+bindsym $mod+f fullscreen toggle
+
+# floating toggle
+bindsym $mod+t floating toggle
+
+# rofi launcher
+bindsym $mod+p exec --no-startup-id rofi -show drun -show-icons
+
+# reload/restart i3
+bindsym $mod+Control+r reload
+bindsym $mod+Control+Shift+r restart
+
+# logout
+bindsym $mod+Shift+q exec --no-startup-id i3-msg exit
+
+# lock screen
+bindsym $mod+Shift+i exec --no-startup-id ~/.local/bin/lock-forestsage.sh
+
+#+end_src
+
+* Font
+
+#+begin_src conf
+
+font pango:IBM Plex Mono 10
+
+#+end_src
+
+* Workspaces
+
+#+begin_src conf
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+
+# move container to workspace and follow
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+
+# ensure workspaces exist so they always show in the bar
+exec --no-startup-id i3-msg 'workspace $ws1; workspace $ws2; workspace $ws3; workspace $ws4; workspace $ws5; workspace $ws1'
+
+#+end_src
+
+* Layout Toggle
+
+#+begin_src conf
+
+bindsym $mod+Shift+Return layout toggle tabbed stacking splitv splith
+
+#+end_src
+
+* Splits
+
+#+begin_src conf
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+#+end_src
+
+* Bar
+
+#+begin_src conf
+
+bar {
+    font pango:IBM Plex Mono 12
+    status_command i3blocks
+    colors {
+        background #1b1f1a
+        statusline #e6e2d6
+        separator  #3f5e4a
+
+        focused_workspace  #c4a86a #1b1f1a #e6e2d6
+        active_workspace   #8fa88a #1b1f1a #e6e2d6
+        inactive_workspace #3f5e4a #1b1f1a #e6e2d6
+        urgent_workspace   #a4636a #a4636a #1b1f1a
+        binding_mode       #7aa6a1 #1b1f1a #e6e2d6
+    }
+}
+
+#+end_src

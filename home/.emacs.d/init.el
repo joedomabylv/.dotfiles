@@ -28,45 +28,54 @@
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "~/.emacs.d/auto-save/"))))
 
-(set-frame-parameter (selected-frame) 'alpha '(95 . 50))
-(add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+(set-frame-parameter (selected-frame) 'alpha '(95 . 75))
+(add-to-list 'default-frame-alist '(alpha . (95 . 75)))
 
-(defun jwd/org-startup ()
-  (org-superstar-mode 1)                 
-  (visual-line-mode 1)                 ; Corrects line-wrapping
-  (setq org-odd-levels-only t         
-	org-ellipsis "  ⬎"            
-	org-hide-emphasis-markers t    ; Hides emphasis markers (*, /, _)
-	org-indent-mode t              
-	org-startup-indented t)
-  (message "Org hook called"))
+  (defun jwd/org-startup ()
+    (org-superstar-mode 1)                 
+    (visual-line-mode 1)                 ; Corrects line-wrapping
+    (setq org-odd-levels-only t         
+	  org-ellipsis "  ⬎"            
+	  org-hide-emphasis-markers t    ; Hides emphasis markers (*, /, _)
+	  org-indent-mode t              
+	  org-startup-indented t)
+    (message "Org hook called"))
 
-(defun jwd/org-mode-visual-fill-column ()
-  (setq visual-fill-column-width 100            ; Fatter column padding
-	visual-fill-column-center-text t)       ; Centers text
-  (visual-fill-column-mode 1))                  ; Turns on visual-fill-column-mode
+  (defun jwd/org-mode-visual-fill-column ()
+    (setq visual-fill-column-width 100            ; Fatter column padding
+	  visual-fill-column-center-text t)       ; Centers text
+    (visual-fill-column-mode 1))                  ; Turns on visual-fill-column-mode
 
-(use-package org-superstar :ensure t)
+  (use-package org-superstar :ensure t)
 
-(use-package org
-  :hook (org-mode . jwd/org-startup))
+  (use-package org
+    :hook (org-mode . jwd/org-startup))
 
-(use-package visual-fill-column
-  :ensure t
-  :hook (org-mode . jwd/org-mode-visual-fill-column))
+  (use-package visual-fill-column
+    :ensure t
+    :hook (org-mode . jwd/org-mode-visual-fill-column))
 
 (font-lock-add-keywords 'org-mode
     '(("^ *\\([-]\\) "
        (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
+;; org: quickly insert src blocks (with or without language)
 (require 'org-tempo)
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
+
+;; generic "open" source block (no language)
+(add-to-list 'org-structure-template-alist
+             '("conf" . "src conf"))
+
+;; language specific templates
+(add-to-list 'org-structure-template-alist
+             '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist
+             '("py" . "src python"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((emacs-lisp . t)               ; Emacs Lisp
-   (python . t)))                 ; Python
+ '((emacs-lisp . t)
+   (python . t)))
 
 (setq org-confirm-babel-evaluate nil)
 
@@ -86,10 +95,22 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jwd/org-babel-tangle-emacs-config)))
 
+(defun jwd/org-babel-tangle-i3-config ()
+  (when (string-equal (buffer-file-name)
+		      (expand-file-name "~/.dotfiles/i3.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'jwd/org-babel-tangle-i3-config)))
+
+;; stop Org from indenting source blocks errantly
 (setq org-src-tab-acts-natively t
       org-edit-src-content-indentation 0
       org-src-preserve-indentation t
       org-adapt-indentation nil)
+
+(add-hook 'org-mode-hook (lambda ()
+                           (electric-indent-local-mode -1)))
 
 (use-package counsel :ensure t)
 (ivy-mode)

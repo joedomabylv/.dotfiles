@@ -287,12 +287,12 @@ def make_secondary_bar():
 screens = [
     Screen(
 	top=make_main_bar(),
-	wallpaper="/usr/share/backgrounds/dense-forest.jpg",
+	wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
 	wallpaper_mode="fill"
     ),
     Screen(
 	top=make_secondary_bar(),
-	wallpaper="/usr/share/backgrounds/dense-forest.jpg",
+	wallpaper="/usr/share/backgrounds/rushing-currents.jpg",
 	wallpaper_mode="fill"
     ),    
 ]

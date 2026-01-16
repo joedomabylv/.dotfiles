@@ -1,6 +1,6 @@
 [window]
 blur=true
-opacity=0.7
+opacity=0.9
 
 [font]
 normal = { family = "IBM Plex Mono", style = "Regular" }

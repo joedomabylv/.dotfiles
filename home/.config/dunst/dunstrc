@@ -1,0 +1,88 @@
+[global]
+    ### geometry / behavior
+    monitor = 0
+    follow = mouse
+    width = 360
+    height = 260
+    origin = top-right
+    offset = 18x18
+    scale = 0
+
+    notification_limit = 6
+
+    ### progress / timing
+    indicate_hidden = yes
+    timeout = 8
+    idle_threshold = 120
+
+    ### appearance
+    font = IBM Plex Mono 10
+    line_height = 0
+    padding = 10
+    horizontal_padding = 10
+    text_icon_padding = 10
+
+    separator_height = 2
+    separator_color = frame
+
+    frame_width = 2
+    frame_color = "#3f5e4a"    # pine
+
+    corner_radius = 8
+
+    ### text
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    show_age_threshold = 60
+
+    ### icons
+    icon_position = left
+    max_icon_size = 48
+    enable_recursive_icon_lookup = true
+
+    ### misc
+    word_wrap = yes
+    ignore_newline = no
+    show_indicators = yes
+    sticky_history = yes
+    history_length = 50
+
+[experimental]
+    per_monitor_dpi = false
+
+
+# -----------------------------
+# forestsage palette
+# bg    #1b1f1a
+# fg    #e6e2d6
+# sage  #8fa88a
+# berry #a4636a
+# sky   #7aa6a1
+# gold  #c4a86a
+# clay  #b07d5a
+# pine  #3f5e4a
+# -----------------------------
+
+[urgency_low]
+    background = "#1b1f1a"
+    foreground = "#e6e2d6"
+    frame_color = "#3f5e4a"    # pine
+    timeout = 6
+
+[urgency_normal]
+    background = "#1b1f1a"
+    foreground = "#e6e2d6"
+    frame_color = "#8fa88a"    # sage
+    timeout = 8
+
+[urgency_critical]
+    background = "#a4636a"     # berry
+    foreground = "#1b1f1a"     # bg (dark text on berry)
+    frame_color = "#c4a86a"    # gold
+    timeout = 0
+
+# optional: make appname stand out slightly (gold), without being loud
+[appname]
+    summary = "*"
+    foreground = "#c4a86a"
