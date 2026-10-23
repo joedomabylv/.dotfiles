@@ -31,7 +31,7 @@ case "$host" in
     ;;
   "jdv")
     echo "applying laptop xrandr layout"
-    xrandr --output eDP-1 --primary --auto \
+    xrandr --output eDP --primary --auto \
       || echo "warning: xrandr laptop command failed (continuing)"
     wallpaper="/usr/share/backgrounds/rushing-currents.jpg"
     ;;
